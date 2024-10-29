@@ -1,0 +1,24 @@
+---
+title: "patient_density_heatmap_annotation"
+author: "Junbum Kim"
+date: "2024-04-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r cars}
+setwd('..')
+library(ComplexHeatmap)
+```
+
+```{r pressure, echo=FALSE}
+df = read.csv2('../results/heatmap_data.csv', sep = ',')
+df
+
+Heatmap(df[,2:4])
+```
+
+
