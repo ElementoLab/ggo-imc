@@ -1,8 +1,7 @@
 .PHONY: download spatial celltype t_cell similarity utag diff_abundance pca patient
 
 download:
-	echo not implemented yet
-	# to be comming
+	python scripts/download_yaml.py
 
 celltype:
 	python scripts/celltype_heatmap_info.py
