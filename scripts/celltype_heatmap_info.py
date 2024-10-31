@@ -1,23 +1,14 @@
-
+import imc_analysis as imc
 import os
 from pathlib import Path
-import tifffile
 from tqdm import tqdm
-
-import pandas as pd
-import numpy as np
-
 import scanpy as sc
-import anndata
-
-import seaborn as sns
+import pandas as pd
 import matplotlib.pyplot as plt
 
 import anndata
-import warnings
-warnings.simplefilter("ignore", UserWarning)
-
-import imc_analysis as imc
+# import warnings
+# warnings.simplefilter("ignore", UserWarning)
 
 import matplotlib
 sc.settings.set_figure_params(dpi=200, dpi_save=300, fontsize=20)
@@ -26,8 +17,7 @@ matplotlib.rcParams["ps.fonttype"] = 42
 matplotlib.rcParams["axes.grid"] = False
 matplotlib.use('Agg')
 
-from scripts.load_yaml import load
-metadata = load('metadata/ggo_config.yml')
+metadata = imc.utils.parse_yaml('metadata/ggo_config.yml')
 
 
 adata_dict = dict()
@@ -38,7 +28,7 @@ for p in ['PANEL_G', 'PANEL_H']:
     adata_dict[p].obs['radio'] = pd.Categorical(adata_dict[p].obs['radio'], categories = ['N', 'PNS', 'PS', 'S'], ordered=True)
     adata_dict[p].obs['pathology'] = pd.Categorical(adata_dict[p].obs['pathology'], categories = ['Normal', 'AIS', 'MIA', 'IAC'], ordered = True)
 
-celltypes = ['celltype', 'celltype_broad']
+celltypes = ['celltype_broad']
 
 # for celltype in celltypes:
 #     adata_dict[p] = adata_dict[p][adata_dict[p].obs[celltype] != 'Low Expr.']

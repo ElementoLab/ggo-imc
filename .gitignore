@@ -1,11 +1,12 @@
 
 data/*
 figures/*
+figures_backup/*
 images/*
 metadata/*
 documentation/*
 previous_code/*
 results/*
 processed/*
-
+scripts_backup/*
 
