@@ -38,15 +38,16 @@ h_myeloid.obs['celltype_broad'] = pd.Categorical(h_myeloid.obs['celltype_broad']
 # myeloid.write('results/myeloid.h5ad')
 
 
-if os.path.exists('results/h_myeloid.h5ad'):
-    h_myeloid = sc.read('results/h_myeloid.h5ad')
+if os.path.exists(metadata['PANEL_H']['AnnData']['myeloids']):
+    h_myeloid = sc.read(metadata['PANEL_H']['AnnData']['myeloids'],
+        backup_url = metadata['PANEL_H']['AnnData']['myeloids_url'])
 else:
     sc.pp.scale(h_myeloid)
     sc.tl.pca(h_myeloid)
     sc.pp.neighbors(h_myeloid)
     sc.tl.umap(h_myeloid)
 
-    h_myeloid.write('results/h_myeloid.h5ad')
+    h_myeloid.write(metadata['PANEL_H']['AnnData']['myeloids'])
 
 # sc.pl.umap(h_myeloid, color = 'celltype_broad', save = 'panel_h_myeloid_umap', frameon = False, title='')
 # sc.pl.umap(h_myeloid, color = h_myeloid.var.index, save = 'panel_h_myeloid_umap_var', frameon = False, use_raw = False, vmin = -0.5, vmax = 1.5, colorbar_loc = None)
@@ -70,7 +71,7 @@ for pval in ['star', 'sci_not']:
         save_dir=f'figures/panel_h/cytokine+_myeloid_density/',
         kind = 'bar',
         pval_form=pval,
-        ymax = 500,
+        y_max = 500,
     )
 
 '''
@@ -90,15 +91,16 @@ g_myeloid = adata_dict['PANEL_G'][g_myeloid_idx,g_myeloid_markers].copy()
 
 # g_myeloid.write('results/g_myeloid.h5ad')
 
-if os.path.exists('results/g_myeloid.h5ad'):
-    g_myeloid = sc.read('results/g_myeloid.h5ad')
+if os.path.exists(metadata['PANEL_G']['AnnData']['myeloids']):
+    g_myeloid = sc.read(metadata['PANEL_G']['AnnData']['myeloids'],
+        backup_url = metadata['PANEL_G']['AnnData']['myeloids_url'])
 else:
     sc.pp.scale(g_myeloid)
     sc.tl.pca(g_myeloid)
     sc.pp.neighbors(g_myeloid)
     sc.tl.umap(g_myeloid)
 
-    g_myeloid.write('results/g_myeloid.h5ad')
+    g_myeloid.write(metadata['PANEL_G']['AnnData']['myeloids'])
 
 # sc.pl.umap(g_myeloid, color = 'pathology', save = 'panel_g_myeloid_umap_pathology', frameon = False, title = '')
 # sc.pl.umap(g_myeloid, color = 'celltype_broad', save = 'panel_g_myeloid_umap', frameon = False, title = '')
@@ -121,7 +123,7 @@ for pval in ['star', 'sci_not']:
         save_dir=f'figures/panel_g/pro_inflammatory_myeloid_cell_density/',
         kind = 'bar',
         pval_form=pval,
-        ymax = 500,
+        y_max = 500,
     )
 
 
@@ -142,7 +144,7 @@ for pval in ['star', 'sci_not']:
         save_dir=f'figures/panel_g/anti_inflammatory_myeloid_cell_density/',
         kind = 'bar',
         pval_form=pval,
-        ymax = 500,
+        y_max = 500,
     )
 
 
@@ -173,5 +175,22 @@ for pval in ['star', 'sci_not']:
         save_dir=f'figures/panel_h/macrophage_polarization_density/',
         kind = 'bar',
         pval_form=pval,
-        ymax = 500,
+        y_max = 500,
     )
+
+
+
+
+
+
+
+
+
+
+
+# g_myeloid.uns['pathology_colors'] = adata_dict['PANEL_G'].uns['pathology_colors']
+# h_myeloid.uns['pathology_colors'] = adata_dict['PANEL_G'].uns['pathology_colors']
+# g_myeloid.uns['radio_colors'] = adata_dict['PANEL_G'].uns['radio_colors']
+# h_myeloid.uns['radio_colors'] = adata_dict['PANEL_G'].uns['radio_colors']
+# g_myeloid.write(metadata['PANEL_G']['AnnData']['myeloids'])
+# h_myeloid.write(metadata['PANEL_H']['AnnData']['myeloids'])
