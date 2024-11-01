@@ -42,7 +42,7 @@ for p in adata_dict:
     fig, ax = plt.subplots(1,1,figsize = (6,5), dpi = 300)
     sc.pl.umap(adata, color = celltype, frameon = False, show = False)
 
-    os.makedirs(f'figures/{p}/{celltype}/', exist_ok = True)
+    os.makedirs(f'figures/{p}/celltype/', exist_ok = True)
     plt.tight_layout()
-    plt.savefig(f'figures/{p}/{celltype}/umap.pdf')
+    plt.savefig(f'figures/{p}/celltype/umap.pdf')
     plt.close()
