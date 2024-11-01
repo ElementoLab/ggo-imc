@@ -1,33 +1,15 @@
-import os
-from glob import glob
-from pathlib import Path
-import tifffile
-from tqdm import tqdm
-
 import pandas as pd
 import numpy as np
 
 import scanpy as sc
-import anndata
 
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-import anndata
-import warnings
-warnings.simplefilter("ignore", UserWarning)
-from matplotlib import rc_context
 import imc_analysis as imc
-from scripts.load_yaml import load
-
-import matplotlib
-sc.settings.set_figure_params(dpi=200, dpi_save=300, fontsize=12)
-matplotlib.rcParams["pdf.fonttype"] = 42
-matplotlib.rcParams["ps.fonttype"] = 42
-matplotlib.rcParams["axes.grid"] = False
 
 # load data
-metadata = load('metadata/ggo_config.yml')
+metadata = imc.utils.parse_yaml('metadata/ggo_config.yml')
 
 # Read in data
 adata = sc.read(metadata['patient_celltype_broad_clustered'])
@@ -38,12 +20,8 @@ sc.pp.pca(adata)
 sc.pp.neighbors(adata)
 sc.tl.umap(adata)
 
-# adata.obs = adata.obs.rename(columns={'leiden':'group'})
-#
 group = 'Group'
 features = metadata['CONDITIONS']
-# sc.pl.pca(adata, color = adata.var.index, size = 30)
-# sc.pl.pca(adata, color = [group] + features, size = 30)
 
 # Measure Scores for processes based on cellular abundance
 processes = {
@@ -54,12 +32,14 @@ processes = {
     'B&T score': ['B', 'CD4 T','CD8 T',],
     'Pan-Immune score': ['CD4 T', 'CD8 T', 'Mac.', 'NK', 'T reg', 'Mast', 'Mono.', 'Neut.', 'PMN-MDSC']
 }
+
 adata.obs[group] = adata.obs[group].str.replace('roup','')
 for s in processes:
     sc.tl.score_genes(adata, gene_list = processes[s],score_name=s, ctrl_size = 20, n_bins = 10)
 
 adata.obs['EMT score'] = adata.obs['Mesenchymal score'] - adata.obs['Epithelial score']
-scores = ['EMT score', 'Epithelial score','Mesenchymal score','Fibrosis score', 'Angiogenesis score', 'B&T score', 'Pan-Immune score']
+# scores = ['EMT score', 'Epithelial score','Mesenchymal score','Fibrosis score', 'Angiogenesis score', 'B&T score', 'Pan-Immune score']
+scores = ['EMT score', 'Fibrosis score', 'Angiogenesis score', 'B&T score', 'Pan-Immune score']
 adata.uns['Group_colors'] = ['#99B898', '#FECEAB', '#E84A5F', '#2A363B']
 
 from scipy.stats import zscore
@@ -119,5 +99,5 @@ plt.close()
 
 # Information Gained
 # I(histology | radiology, group) = H(histology | radiology) - H(histology | radiology, group)
-p_hist_radio
-p_hist_radio_group
+print(p_hist_radio)
+print(p_hist_radio_group)

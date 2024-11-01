@@ -1,4 +1,4 @@
-.PHONY: download spatial celltype t_cell similarity utag diff_abundance pca patient
+.PHONY: download celltype diff_abundance t_cell myeloid epithelial microenvironment pca patient # spatial similarity utag
 
 download:
 	python scripts/download_yaml.py
@@ -12,20 +12,26 @@ diff_abundance:
 t_cell:
 	python scripts/t_cell_analysis.py
 
+myeloid:
+	python scripts/myeloid_analysis.py
+	
+epithelial:
+	python scripts/epithelial_characterization.py
+
 pca:
 	python scripts/roi_pca_plot.py
 
-spatial:
-	python scripts/spatial_plot.py
+# spatial:
+# 	python scripts/spatial_plot.py
 
-interaction:
-	python scripts/cell_interaction.py
+# interaction:
+# 	python scripts/cell_interaction.py
 
-similarity:
-	python scripts/sample_similarity.py
+# similarity:
+# 	python scripts/sample_similarity.py
 
-utag:
-	python scripts/utag_ue.py	
+microenvironment:
+	python scripts/ue_analysis.py
 
 patient:
 	python scripts/create_patient_density_matrix.py

@@ -24,7 +24,6 @@ celltype_map = {
 }
 
 # Cell Proportion Figure
-
 adata = adata[adata.obs['celltype'].isin(celltype_map.keys())]
 adata.obs['phenotype'] = adata.obs['celltype'].replace(celltype_map)
 adata.obs['phenotype'] = pd.Categorical(adata.obs['phenotype'], categories = ['PanCK+', 'RAGE+', 'SFTPC+'], ordered = True)
@@ -57,7 +56,6 @@ for cond in ['pathology', 'radio']:
 
 
 # EMT Proportion Figure
-
 print(f"Reading {metadata['PANEL_G']['AnnData']['phenotyped_umap_name']}...")
 pg = sc.read(
     metadata['PANEL_G']['AnnData']['phenotyped_umap_name'],
