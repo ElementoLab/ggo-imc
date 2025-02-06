@@ -5,3 +5,4 @@ ipython==8.18.1
 harmonypy
 leidenalg==0.10.2
 squidpy==1.6.1
+scimap

@@ -110,6 +110,9 @@ for pval_form in ['star', 'sci_notation']:
 
 
 
+
+
+
 tumor_density = density[density.obs['pathology']!='N'].copy()
 density_df = tumor_density.to_df()
 # per ROI count lymphonet connectivity (network degree)

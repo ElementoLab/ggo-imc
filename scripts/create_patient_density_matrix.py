@@ -1,8 +1,5 @@
 
 import os
-from glob import glob
-from pathlib import Path
-import tifffile
 from tqdm import tqdm
 
 import pandas as pd
@@ -15,21 +12,13 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 import anndata
-import warnings
-warnings.simplefilter("ignore", UserWarning)
 
 import imc_analysis as imc
 from scripts.load_yaml import load
 
-import matplotlib
-sc.settings.set_figure_params(dpi=200, dpi_save=300, fontsize=12)
-matplotlib.rcParams["pdf.fonttype"] = 42
-matplotlib.rcParams["ps.fonttype"] = 42
-matplotlib.rcParams["axes.grid"] = False
-matplotlib.use('Agg')
 
 # load data
-metadata = load('metadata/ggo_config.yml')
+metadata = imc.utils.parse_yaml('metadata/ggo_config.yml')
 
 pdf = pd.read_csv(metadata['wes_variant_pivot_saved'], index_col = 0)
 genes_ = ['EGFR', 'KRAS', 'RBM10', 'TP53']

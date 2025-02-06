@@ -20,7 +20,6 @@ matplotlib.rcParams["ps.fonttype"] = 42
 matplotlib.rcParams["axes.grid"] = False
 matplotlib.use('Agg')
 
-
 from scripts.load_yaml import load
 metadata = load('metadata/ggo_config.yml')
 
