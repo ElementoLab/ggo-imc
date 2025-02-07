@@ -1,9 +1,13 @@
 # ggo-imc
-GGO IMC analysis repository to reproduce figures from manuscript
 
-Spatial landscape of ground-glass opacity in early-stage lung adenocarcinoma
+This repository contains the code to reproduce figures from manuscript: "Simultaneous immunomodulation and epithelial-to-mesenchymal transition drives lung adenocarcinoma progression."
 
-## Setup
+## Data
+The processed data and raw data (for further exploration) can be found at Zenodo:
+- Processed Data: https://zenodo.org/uploads/14827075
+- Raw Data: https://zenodo.org/uploads/14822106
+
+## Environment Setup
 ```
 # setting up conda environment
 conda create -n ggo-imc python==3.9.10 -y
@@ -22,6 +26,14 @@ make run
 
 Alternatively for individual plots:
 ```
+make figure1
+make figure2
+make figure3
+make figure4
+make figure5
+```
+
+<!-- ```
 # plot celltype heatmaps
 make celltype
 
@@ -31,4 +43,12 @@ make diff_abundance
 # plot interactions
 make interaction
 
-```
+make t_cell
+
+make myelod
+
+make epithelial
+
+make microenvironment
+
+``` -->

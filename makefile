@@ -45,6 +45,6 @@ clean:
 run: setup download
 figure1: celltype
 figure2: diff_abundance
-figure3: diff_abundance
+figure3: microenvironment
 figure4: similarity
 figure5: patient

@@ -88,7 +88,7 @@ for panel in adata_dict:
 		fig, ax = plt.subplots(1,1,dpi = 300, figsize = (3.5,3))
 		df['Race'] = df['Race'].replace('African American', 'Black or African American')
 		df['Race'] = pd.Categorical(df['Race'], categories = ['White', 'Asian', 'Black or African American', 'Other', 'Unknown',])
-		df.groupby('Race').count()[group].plot(kind='pie', autopct='%1.1f%%', fontsize=10, ax = ax, colors = ['#FFF7D2', '#FDE782', '#934F0A', '#222222', '#A2A2A2'])
+		df.groupby('Race').count()[group].plot(kind='pie', autopct='%1.1f%%', fontsize=10, ax = ax, colors = ['#FFDFDF', '#FDE7AA', '#934F0A', '#222222', '#A2A2A2'])
 		plt.ylabel('')
 		plt.tight_layout()
 		plt.savefig(f'figures/demographics/race_{panel}_{group}_ratio.pdf', bbox_inches = 'tight')
