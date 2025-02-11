@@ -1,6 +1,6 @@
 imc-analysis
 tqdm
-pandas==2.0.1
+pandas
 ipython==8.18.1
 harmonypy
 leidenalg==0.10.2
