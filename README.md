@@ -10,7 +10,7 @@ The processed data and raw data (for further exploration) can be found at Zenodo
 ## Environment Setup
 ```
 # setting up conda environment
-conda create -n ggo-imc python==3.9.10 -y
+conda create -n ggo-imc python==3.9 -y
 conda activate ggo-imc
 pip install -r requirements.txt
 
