@@ -21,6 +21,9 @@ epithelial:
 pca:
 	python scripts/roi_pca_plot.py
 
+pca_group:
+	python scripts/roi_pca_plot_group.py
+
 # spatial:
 # 	python scripts/spatial_plot.py
 
@@ -43,8 +46,8 @@ clean:
 	$(RM) $(VENV)
 
 run: setup download
-figure1: celltype
+figure1: celltype pca
 figure2: diff_abundance
 figure3: microenvironment
 figure4: similarity
-figure5: patient
+figure5: patient pca_group

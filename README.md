@@ -3,9 +3,10 @@
 This repository contains the code to reproduce figures from manuscript: "Simultaneous immunomodulation and epithelial-to-mesenchymal transition drives lung adenocarcinoma progression."
 
 ## Data
-The processed data and raw data (for further exploration) can be found at Zenodo:
-- Processed Data: https://zenodo.org/uploads/14827075
-- Raw Data: https://zenodo.org/uploads/14822106
+The processed data and raw data (for further exploration) can be found at Zenodo (view of the data might be restricted until publication):
+
+- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14822106.svg)](https://doi.org/10.5281/zenodo.14822106) - Processed Data
+- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14822106.svg)](https://doi.org/10.5281/zenodo.14822106) - Raw Data
 
 ## Environment Setup
 ```
