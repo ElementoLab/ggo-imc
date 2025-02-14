@@ -14,9 +14,6 @@ The processed data and raw data (for further exploration) can be found at Zenodo
 conda create -n ggo-imc python==3.9 -y
 conda activate ggo-imc
 pip install -r requirements.txt
-
-# downloading data
-make download
 ```
 
 ## Analysis Pipeline
@@ -25,7 +22,7 @@ For streamlined analysis to produce figures use the command
 make run
 ```
 
-Alternatively for individual plots:
+Alternatively for individual plots for each figures:
 ```
 make figure1
 make figure2

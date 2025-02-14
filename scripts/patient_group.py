@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-
+import os
 import scanpy as sc
 
 import seaborn as sns
@@ -10,9 +10,13 @@ import imc_analysis as imc
 
 # load data
 metadata = imc.utils.parse_yaml('metadata/ggo_config.yml')
+os.makedirs('figures/figure5', exist_ok=True)
 
 # Read in data
-adata = sc.read(metadata['patient_celltype_broad_clustered'])
+adata = sc.read(
+    metadata['patient_celltype_broad_clustered'],
+    backup_url = metadata['patient_group_url']
+)
 
 # clustering
 sc.pp.scale(adata)
@@ -38,8 +42,8 @@ for s in processes:
     sc.tl.score_genes(adata, gene_list = processes[s],score_name=s, ctrl_size = 20, n_bins = 10)
 
 adata.obs['EMT score'] = adata.obs['Mesenchymal score'] - adata.obs['Epithelial score']
-# scores = ['EMT score', 'Epithelial score','Mesenchymal score','Fibrosis score', 'Angiogenesis score', 'B&T score', 'Pan-Immune score']
-scores = ['EMT score', 'Fibrosis score', 'Angiogenesis score', 'B&T score', 'Pan-Immune score']
+scores = ['EMT score', 'Epithelial score','Mesenchymal score','Fibrosis score', 'Angiogenesis score', 'B&T score', 'Pan-Immune score']
+# scores = ['EMT score', 'Fibrosis score', 'Angiogenesis score', 'B&T score', 'Pan-Immune score']
 adata.uns['Group_colors'] = ['#99B898', '#FECEAB', '#E84A5F', '#2A363B']
 
 from scipy.stats import zscore
@@ -52,9 +56,8 @@ for i, ax in enumerate(axes.flatten()):
     ax.set_xlabel('')
 sns.despine()
 plt.tight_layout()
-plt.savefig('figures/group_process_scores.pdf')
+plt.savefig('figures/figure5/group_process_scores.pdf')
 plt.close()
-
 
 # Conditional Probability
 def cond_prob(
@@ -92,7 +95,7 @@ for ax, (group, data) in zip(axes[1:], groups):
     ax.legend().remove()
 sns.despine()
 plt.tight_layout()
-plt.savefig('figures/group_conditional_probability_hist_radio.pdf')
+plt.savefig('figures/figure5/group_conditional_probability_hist_radio.pdf')
 plt.close()
 # plt.show()
 

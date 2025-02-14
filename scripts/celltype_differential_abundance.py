@@ -38,6 +38,6 @@ for p in ['PANEL_G', 'PANEL_H']:
             imc.pl.plot_mwu(
                 density,
                 kind = 'box-line',
-                save_dir=f'figures/{p}/differential_{celltype}_density/',
+                save_dir=f'figures/figure2/differential_{celltype}_density/{p}/',
                 pval_form=pval_form
             )

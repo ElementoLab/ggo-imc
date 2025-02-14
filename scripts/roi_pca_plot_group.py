@@ -1,6 +1,7 @@
 import imc_analysis as imc
 import scanpy as sc
 
+import os
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
