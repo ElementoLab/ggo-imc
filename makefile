@@ -12,7 +12,7 @@ pca:
 
 # figure 2
 diff_abundance:
-	python scripts/celltype_differential_abundance.py
+	python scripts/celltype_differential_abundance_immune.py
 
 t_cell:
 	python scripts/t_cell_analysis.py
@@ -21,11 +21,11 @@ myeloid:
 	python scripts/myeloid_analysis.py
 
 # figure 3
-diff_abundance_epithelial:
-	python scripts/epithelial_characterization.py
-
 diff_abundance_stromal:
-	python scripts/epithelial_characterization.py
+	python scripts/celltype_differential_abundance_stromal.py
+
+diff_abundance_epithelial:
+	python scripts/celltype_differential_abundance_epithelial.py
 
 # figure 4
 microenvironment:
