@@ -11,8 +11,8 @@ pca:
 	python scripts/roi_pca_plot.py
 
 # figure 2
-diff_abundance:
-	python scripts/celltype_differential_abundance_immune.py
+densities_immune:
+	python scripts/celltype_differential_abundance.py lymphoid myeloid
 
 t_cell:
 	python scripts/t_cell_analysis.py
@@ -21,11 +21,11 @@ myeloid:
 	python scripts/myeloid_analysis.py
 
 # figure 3
-diff_abundance_stromal:
-	python scripts/celltype_differential_abundance_stromal.py
+densities_stromal_and_epithelial:
+	python scripts/celltype_differential_abundance.py stromal epithelial
 
-diff_abundance_epithelial:
-	python scripts/celltype_differential_abundance_epithelial.py
+epithelial:
+	python scripts/epithelial_characterization.py
 
 # figure 4
 microenvironment:
@@ -55,8 +55,8 @@ clean:
 
 run: setup download
 figure1: celltype pca
-figure2: diff_abundance t_cell myeloid
-figure3: diff_abundance_epithelial diff_abundance_stromal
+figure2: densities_immune t_cell myeloid
+figure3: densities_stromal_and_epithelial epithelial
 figure4: microenvironment
 figure5: patient_risk pca_group
 #figure5: patient patient_risk pca_group

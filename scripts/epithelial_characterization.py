@@ -51,7 +51,7 @@ for cond in ['pathology', 'radio']:
     ax.set_xlabel('')
     ax.set_xticklabels(ax.get_xticklabels(), rotation = 0)
     plt.tight_layout()
-    plt.savefig(f'figures/epithelial_proportion_{cond}.pdf')
+    plt.savefig(f'figures/figure3/epithelial_proportion_{cond}.pdf')
     plt.close()
 
 
@@ -68,9 +68,9 @@ fig, axes = plt.subplots(2,4, dpi = 300, figsize = (8,4))
 
 for i, ax in tqdm(enumerate(axes.flatten())):
     if int(i/4) == 0:
-        feature = 'radio' #'Radiology'
+        feature = 'pathology' #'Radiology'
     else:
-        feature = 'pathology' #'pred'
+        feature = 'radio' #'pred'
     rad = pg_epi.obs[feature].cat.categories[i % 4]
     pg_tmp = pg_epi[pg_epi.obs[feature] == rad].copy()
     sns.kdeplot(pg_tmp.to_df(),
@@ -78,7 +78,7 @@ for i, ax in tqdm(enumerate(axes.flatten())):
     ax.set_title(rad)
 
 plt.tight_layout()
-plt.savefig(f'figures/EMT proportion.pdf', bbox_inches = 'tight')
+plt.savefig(f'figures/figure3/EMT proportion.pdf', bbox_inches = 'tight')
 plt.close()
 
 
