@@ -21,6 +21,8 @@ for p in ['PANEL_G', 'PANEL_H']:
         backup_url = metadata[p]['AnnData']['utag_url']
     )
 
+os.makedirs('figures/figure4/', exist_ok=True)
+
 # Plot Celltype Composition
 import seaborn as sns
 celltype = 'celltype_broad'
@@ -116,26 +118,13 @@ for feat in ['pathology', 'radio']:
 
         a = adata_dict[p][adata_dict[p].obs[celltype] == ct, functional_markers].copy()
         sc.tl.rank_genes_groups(a, groupby = feat, method = 'wilcoxon', use_raw = False)
-        sc.pl.rank_genes_groups_dotplot(a, n_genes = 5, values_to_plot = 'logfoldchanges', min_logfoldchange = 0.2,cmap = 'bwr', show = False, title = ct, vmax = 1, vmin = -1, dendrogram = False, use_raw = False)
-        # sc.pl.rank_genes_groups_dotplot(
-        #     a, n_genes = 4, values_to_plot = 'scores',
-        #     cmap = 'bwr', show = False, title = ct,
-        #     dendrogram = False, use_raw = False)
-        
-        cts = ct.replace('/','')
-        path = f'figures/{p}/{celltype}/{feat}/'
-
-        os.makedirs(path, exist_ok = True)
-        plt.savefig(path + f'dotplot_log_foldchange_{p}_{feat}_{cts}.pdf', bbox_inches = 'tight')
-        plt.close()
-
         sc.pl.rank_genes_groups_dotplot(
             a, n_genes = 4, values_to_plot = 'scores',
             cmap = 'bwr', show = False, title = ct,
             dendrogram = False, use_raw = False)
         
         cts = ct.replace('/','')
-        path = f'figures/{p}/{celltype}/{feat}/'
+        path = f'figures/figure4/{celltype}/{feat}/'
 
         os.makedirs(path, exist_ok = True)
         plt.savefig(path + f'dotplot_score_{p}_{feat}_{cts}.pdf', bbox_inches = 'tight')
