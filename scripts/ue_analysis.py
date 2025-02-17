@@ -4,6 +4,8 @@ import numpy as np
 import scanpy as sc
 import anndata
 
+import os
+
 import seaborn as sns
 import matplotlib.pyplot as plt
 import imc_analysis as imc
@@ -57,10 +59,10 @@ import seaborn as sns
 
 p = 'PANEL_G'
 uE = 'uE_broad'
-# density = imc.tl.celltype_density(
-#     adata_dict[p],
-#     celltype = uE,
-#     condition_keys = ['pathology', 'radio'])
+density = imc.tl.celltype_density(
+    adata_dict[p],
+    celltype = uE,
+    condition_keys = ['pathology', 'radio'])
 
 # for cond in ['pathology', 'radio']:
 #     imc.tl.grouped_mwu_test(
@@ -75,8 +77,6 @@ uE = 'uE_broad'
 #             kind = 'box-line',
 #             pval_form=pval_form
 #         )
-
-
 
 # Area based comparison
 area = adata_dict[p].obs.groupby(['roi',uE])[['area']].sum().pivot_table(index = 'roi', columns = uE)
@@ -110,7 +110,7 @@ functional_markers = ['HLADR', 'GranzymeB', 'Tbet', 'CD163',
 #for p in adata_dict:
 celltype = 'uE_broad'
 p = 'PANEL_G'
-p = 'PANEL_H'
+# p = 'PANEL_H'
 for feat in ['pathology', 'radio']:
     for ct in tqdm(adata_dict[p].obs[celltype].unique()):
 
