@@ -15,6 +15,9 @@ for p in ['PANEL_G', 'PANEL_H']:
     adata_dict[p] = sc.read(
         metadata[p]['AnnData']['phenotyped_umap_name'],
         backup_url = metadata[p]['AnnData']['backup_url'])
+    
+    adata_dict[p].uns['pathology_colors'] = metadata['pathology_color']
+    adata_dict[p].uns['radio_colors'] = metadata['Radiology_color']
 
 # differential cell type densities
 for p in ['PANEL_G', 'PANEL_H']:
