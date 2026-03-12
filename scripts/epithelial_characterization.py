@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 import numpy as np
 
@@ -7,6 +9,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 import imc_analysis as imc
+
+os.makedirs('figures/figure3/', exist_ok=True)
 
 metadata = imc.utils.parse_yaml('metadata/ggo_config.yml')
 

@@ -37,7 +37,9 @@ for p in ['PANEL_G', 'PANEL_H']:
 
         densities = dict()
         # if lineage is provided as sys.arg, subset cell lineage
-        lineages = metadata['CELL_LINEAGES']
+        # CELL_LINEAGES is optional in ggo_config.yml (metadata/ is gitignored).
+        # Default to an empty dict so the else-branch below runs all cells.
+        lineages = metadata.get('CELL_LINEAGES', {})
         x = set(sys.argv).intersection(set(lineages.keys()))
         
         if len(x):
