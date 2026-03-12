@@ -38,14 +38,24 @@ pytest projects/imc/ggo-imc/tests/ -v
 
 ---
 
+## Manuscript
+
+> Kim, Ravichandran, Yoffe et al. "Spatial profiling of early-stage lung adenocarcinoma reveals patterns of immunomodulation and epithelial plasticity." *Cancer Cell* (2025).
+
+---
+
 ## Key Files
 
 | Path | Description |
 |------|-------------|
 | `scripts/celltype_heatmap_info.py` | Figure 1: cell type heatmap |
-| `scripts/celltype_differential_abundance.py` | Figure 2/3: immune/stromal density |
+| `scripts/roi_pca_plot.py` | Figure 1: ROI PCA archetypes |
+| `scripts/celltype_differential_abundance.py` | Figures 2/3: immune/stromal density |
 | `scripts/t_cell_analysis.py` | Figure 2: T cell analysis |
 | `scripts/myeloid_analysis.py` | Figure 2: myeloid analysis |
+| `scripts/epithelial_characterization.py` | Figure 3: epithelial phenotypes, EMP |
 | `scripts/ue_analysis.py` | Figure 4: microenvironment |
+| `scripts/roi_pca_plot_group.py` | Figure 5: patient group PCA overlay |
 | `scripts/patient_group.py` | Figure 5: patient risk groups |
-| `scripts/asd.R` | Figure 5: patient-level R analysis (runs outside container) |
+| `scripts/asd.R` | Figure 5: patient-level R analysis (not yet in repo; runs outside container) |
+| `scripts/exploratory/` | Exploratory scripts — not in pipeline |
