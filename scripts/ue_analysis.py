@@ -109,23 +109,21 @@ functional_markers = ['HLADR', 'GranzymeB', 'Tbet', 'CD163',
 'CD45RA', 'CD206', 'Ki67', 'CD57', 'CD27', '41BB', 'CD45RO',
 'TIM3', 'CD25', 'CTLA4']
 
-#for p in adata_dict:
 celltype = 'uE_broad'
-p = 'PANEL_G'
-# p = 'PANEL_H'
-for feat in ['pathology', 'radio']:
-    for ct in tqdm(adata_dict[p].obs[celltype].unique()):
+for p in ['PANEL_G', 'PANEL_H']:
+    for feat in ['pathology', 'radio']:
+        for ct in tqdm(adata_dict[p].obs[celltype].unique()):
 
-        a = adata_dict[p][adata_dict[p].obs[celltype] == ct, functional_markers].copy()
-        sc.tl.rank_genes_groups(a, groupby = feat, method = 'wilcoxon', use_raw = False)
-        sc.pl.rank_genes_groups_dotplot(
-            a, n_genes = 4, values_to_plot = 'scores',
-            cmap = 'bwr', show = False, title = ct,
-            dendrogram = False, use_raw = False)
-        
-        cts = ct.replace('/','')
-        path = f'figures/figure4/{celltype}/{feat}/'
+            a = adata_dict[p][adata_dict[p].obs[celltype] == ct, functional_markers].copy()
+            sc.tl.rank_genes_groups(a, groupby = feat, method = 'wilcoxon', use_raw = False)
+            sc.pl.rank_genes_groups_dotplot(
+                a, n_genes = 4, values_to_plot = 'scores',
+                cmap = 'bwr', show = False, title = ct,
+                dendrogram = False, use_raw = False)
 
-        os.makedirs(path, exist_ok = True)
-        plt.savefig(path + f'dotplot_score_{p}_{feat}_{cts}.pdf', bbox_inches = 'tight')
-        plt.close()
+            cts = ct.replace('/','')
+            path = f'figures/figure4/{celltype}/{feat}/'
+
+            os.makedirs(path, exist_ok = True)
+            plt.savefig(path + f'dotplot_score_{p}_{feat}_{cts}.pdf', bbox_inches = 'tight')
+            plt.close()

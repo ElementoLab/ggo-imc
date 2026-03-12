@@ -69,7 +69,7 @@ for i,group in enumerate(da.obs['Group'].cat.categories):
     ellipse = Ellipse(xy=mean, width=width, height=height, angle=angle, facecolor=da.uns['Group_colors'][i], edgecolor = None, alpha = 0.3)
     plt.gca().add_patch(ellipse)
 
-os.makedirs('figure/figure5', exist_ok = True)
+os.makedirs('figures/figure5/', exist_ok = True)
 sns.despine()
 plt.tight_layout()
 plt.savefig('figures/figure5/roi_pca_group.pdf', bbox_inches = 'tight')

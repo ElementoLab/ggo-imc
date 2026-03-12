@@ -37,7 +37,7 @@ cytokine_expression = h_lymphocytes[:,cytokine].X.mean(axis=1)
 h_lymphocytes.obs['mean cytokine expression'] = cytokine_expression.tolist()
 h_lymphocytes.obs['cytokine+'] = (h_lymphocytes.obs['mean cytokine expression'] > 0).ravel().tolist()
 
-os.makedirs('figure/figure2', exist_ok = True)
+os.makedirs('figures/figure2/', exist_ok = True)
 cytokine_density = imc.tl.celltype_density(h_lymphocytes, celltype = 'cytokine+', condition_keys = ['pathology', 'radio'])
 imc.tl.grouped_mwu_test(cytokine_density, condition_keys = ['pathology'])
 for pval in ['star', 'sci_not']:
