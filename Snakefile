@@ -71,6 +71,8 @@ rule pca_group:
     shell: run_container("scripts/roi_pca_plot_group.py") + " && touch pca_group.done"
 
 rule patient:
+    # NOTE: scripts/asd.R is not yet committed to this repo.
+    # Run in ggo_imc conda env (R + dependencies); sc_tools image does not include R.
     output: touch("patient.done")
     input: "scripts/asd.R"
     shell: "Rscript scripts/asd.R && touch patient.done"
@@ -106,3 +108,6 @@ rule all:
         "densities_stromal_epithelial.done", "epithelial.done",
         "microenvironment.done",
         "patient_risk.done", "pca_group.done"
+
+rule clean:
+    shell: "rm -f *.done"
