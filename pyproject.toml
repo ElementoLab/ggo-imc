@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ggo-imc"
+version = "0.1.0"
+description = "GGO IMC imaging mass cytometry analysis (scripts only)"
+requires-python = ">=3.10"
+# Add project-specific deps here (beyond sc-tools base + deconvolution extra).
+# Most deps come from root: uv pip install -e ".[deconvolution]"
+# Note: asd.R requires R — install R and renv/bioconductor deps in the ggo_imc conda env separately.
+dependencies = []
+
+[tool.setuptools]
+packages = []  # scripts-only project; no Python packages to install

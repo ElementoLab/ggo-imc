@@ -1,3 +1,7 @@
+# ggo-imc Makefile
+# DEPRECATED: Prefer Snakemake (Snakefile + config.yaml in this dir). Use Apptainer
+# for containerized runs. See project_setup.md.
+#
 .PHONY: download celltype diff_abundance t_cell myeloid epithelial microenvironment pca patient # spatial similarity utag
 
 download:

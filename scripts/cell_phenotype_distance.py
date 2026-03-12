@@ -365,7 +365,7 @@ for p in ['PANEL_G', 'PANEL_H']:
 
 dist_dict[p]
 adata_dict[p].obs[['GGO ID', 'pathology']]
-dist_dict[p].obs['imageid']
+# dist_dict[p].obs['imageid']
 # distance_from = 'Tumor-like'
 celltype_name = 'celltype_broad'
 
@@ -377,7 +377,7 @@ for p in dist_dict:
     adata = dist_dict[p][dist_dict[p].obs['pathology']!='N'] # dist_h
 
     d = imc.utils.adata_to_dist_df(adata, roi_key = 'GGO ID', celltype = 'celltype_broad')
-    d = d[d['group'] != d['phenotype']]
+    d = d[d['group'] != d['celltype']]
     d['panel'] = p
     dist_distribution[p] = d
 
@@ -414,14 +414,12 @@ sns.despine()
 plot.savefig(f'figures/spatial_distance_all.pdf', dpi=300)
 plt.close()
 
-# for celltypes
 for p in dist_dict:
     # adata = dist_dict[p] # dist_h
     adata = dist_dict[p][dist_dict[p].obs['pathology']!='N'] # dist_h
 
     for celltype in adata.obs[celltype_name].cat.categories:
-        
-        d = adata_to_dist_df(adata, image_id = 'GGO ID', phenotype = 'celltype_broad', celltype = celltype)
+        d = imc.utils.adata_to_dist_df(adata, roi_key = 'GGO ID', celltype = 'celltype_broad', celltype_of_interest = celltype)
         d['proximity'] = d['distance'].apply(categorize)
         
         plot = sns.displot(

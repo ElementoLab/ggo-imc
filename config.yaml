@@ -1,0 +1,4 @@
+# ggo-imc (IMC) Snakemake config
+repo_root: "../../.."
+project_rel: "projects/imc/ggo-imc"
+container_sif: "containers/sc_tools.sif"
