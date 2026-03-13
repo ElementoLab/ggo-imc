@@ -114,7 +114,8 @@ for p in ['PANEL_G', 'PANEL_H']:
     for feat in ['pathology', 'radio']:
         for ct in tqdm(adata_dict[p].obs[celltype].unique()):
 
-            a = adata_dict[p][adata_dict[p].obs[celltype] == ct, functional_markers].copy()
+            panel_markers = [m for m in functional_markers if m in adata_dict[p].var_names]
+            a = adata_dict[p][adata_dict[p].obs[celltype] == ct, panel_markers].copy()
             sc.tl.rank_genes_groups(a, groupby = feat, method = 'wilcoxon', use_raw = False)
             sc.pl.rank_genes_groups_dotplot(
                 a, n_genes = 4, values_to_plot = 'scores',
