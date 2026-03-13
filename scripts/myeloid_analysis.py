@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 
 import imc_analysis as imc
 import os
+from utils import CYTOKINE as cytokine
 
 metadata = imc.utils.parse_yaml('metadata/ggo_config.yml')
 
@@ -53,7 +54,6 @@ else:
 
     h_myeloid.write(metadata['PANEL_H']['AnnData']['myeloids'])
 
-cytokine = ['IFNg','IL1alpha', 'IL1beta', 'IL1R1', 'IL12p40', 'IL17A', 'IL23p19', 'IL23R']
 cytokine_expression = h_myeloid[:,cytokine].X.mean(axis=1)
 
 '''

@@ -25,6 +25,8 @@ CONFIG_URL = 'https://wcm.box.com/shared/static/mdntp2xf9tjobxeidkw93mg8jysb7nh9
 
 PANELS = ['PANEL_G', 'PANEL_H']
 
+CYTOKINE: list[str] = ['IFNg', 'IL1alpha', 'IL1beta', 'IL1R1', 'IL12p40', 'IL17A', 'IL23p19', 'IL23R']
+
 
 # ---------------------------------------------------------------------------
 # Config

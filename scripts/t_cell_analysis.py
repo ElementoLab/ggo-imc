@@ -3,6 +3,7 @@ import scanpy as sc
 import anndata
 import os
 import matplotlib
+from utils import CYTOKINE as cytokine
 
 matplotlib.use('Agg')
 metadata = imc.utils.parse_yaml('metadata/ggo_config.yml')
@@ -26,7 +27,6 @@ h_lymphocytes = sc.read(
 )
 
 # % of cells with proinflammatory signals
-cytokine = ['IFNg','IL1alpha', 'IL1beta', 'IL1R1', 'IL12p40', 'IL17A', 'IL23p19', 'IL23R']
 cytokine_expression = h_lymphocytes[:,cytokine].X.mean(axis=1)
 
 # barplot cytokine positive cell density
