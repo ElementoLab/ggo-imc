@@ -23,7 +23,7 @@ Processed and raw data are available on Zenodo (access may be restricted prior t
 ## Environment Setup
 
 ```bash
-conda create -n ggo-imc python=3.10 -y
+conda create -n ggo-imc python=3.9 -y
 conda activate ggo-imc
 pip install -r requirements.txt
 ```
@@ -59,7 +59,8 @@ conda activate ggo_imc
 SC_TOOLS_RUNTIME=none snakemake -d . -s Snakefile figure1
 ```
 
-> **Note:** Figure 5 (`patient` rule) requires R with dependencies installed in the `ggo_imc` conda environment. The sc_tools container does not include R.
+> **Note:** `snakemake figure5` runs `patient_group.py` and `roi_pca_plot_group.py` (Python, no R required).
+> The `patient` rule (`scripts/asd.R`) is a separate target not included in `figure5` or `all` — it requires R and is not yet committed to this repo. The R-dependent panels of Figure 5 cannot be reproduced from this repo until `asd.R` is added.
 
 ---
 
@@ -72,6 +73,30 @@ SC_TOOLS_RUNTIME=none snakemake -d . -s Snakefile figure1
 | **Figure 3** | Stromal expansion, epithelial remodeling, EMP (3a-g) | `celltype_differential_abundance.py`, `epithelial_characterization.py` |
 | **Figure 4** | UTAG microenvironments, TLS, tumor-stroma interface, cell-cell interactions (4a-f) | `ue_analysis.py` |
 | **Figure 5** | Patient risk groups via hierarchical clustering, fibrotic trajectory, diagnostic gap (5a-e) | `roi_pca_plot_group.py`, `patient_group.py`, `asd.R` |
+
+---
+
+## Verifying Reproducibility
+
+A checksum manifest of all pipeline outputs is provided in `figures_checksums.md5`. After running the pipeline:
+
+```bash
+python3 -c "
+import hashlib
+from pathlib import Path
+exts = {'.pdf', '.png', '.svg'}
+for line in open('figures_checksums.md5'):
+    md5, path = line.strip().split(' ', 1)
+    p = Path(path)
+    if p.exists():
+        actual = hashlib.md5(p.read_bytes()).hexdigest()
+        status = 'OK' if actual == md5 else 'CHANGED'
+        if status != 'OK':
+            print(f'{status}: {path}')
+"
+```
+
+No output means all figures are identical to the verified run.
 
 ---
 

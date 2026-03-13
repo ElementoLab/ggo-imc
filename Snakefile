@@ -96,6 +96,7 @@ rule figure4:
     input: "microenvironment.done"
 
 rule figure5:
+    # NOTE: does not include patient.done (requires scripts/asd.R, not yet in repo)
     input: "patient_risk.done", "pca_group.done"
 
 rule run:
