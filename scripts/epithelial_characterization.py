@@ -14,7 +14,7 @@ os.makedirs('figures/figure3/', exist_ok=True)
 
 metadata = imc.utils.parse_yaml('metadata/ggo_config.yml')
 
-print(f"Reading {metadata['PANEL_H']['AnnData']['phenotyped_umap_name']}...")
+sc.logging.info(f"Reading {metadata['PANEL_H']['AnnData']['phenotyped_umap_name']}...")
 adata = sc.read(
     metadata['PANEL_H']['AnnData']['phenotyped_umap_name'],
     backup_url = metadata['PANEL_H']['AnnData']['backup_url'])
@@ -60,7 +60,7 @@ for cond in ['pathology', 'radio']:
 
 
 # EMT Proportion Figure
-print(f"Reading {metadata['PANEL_G']['AnnData']['phenotyped_umap_name']}...")
+sc.logging.info(f"Reading {metadata['PANEL_G']['AnnData']['phenotyped_umap_name']}...")
 pg = sc.read(
     metadata['PANEL_G']['AnnData']['phenotyped_umap_name'],
     backup_url = metadata['PANEL_G']['AnnData']['backup_url'])

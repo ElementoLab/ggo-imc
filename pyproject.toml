@@ -12,5 +12,8 @@ requires-python = ">=3.10"
 # Note: asd.R requires R — install R and renv/bioconductor deps in the ggo_imc conda env separately.
 dependencies = []
 
+[tool.pytest.ini_options]
+pythonpath = ["scripts"]
+
 [tool.setuptools]
 packages = []  # scripts-only project; no Python packages to install

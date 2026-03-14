@@ -3,6 +3,7 @@ import scanpy as sc
 import anndata
 import os
 import matplotlib
+from utils import CYTOKINE as cytokine
 
 matplotlib.use('Agg')
 metadata = imc.utils.parse_yaml('metadata/ggo_config.yml')
@@ -20,17 +21,12 @@ for p in ['PANEL_G', 'PANEL_H']:
 PANEL_H
 Lymphocyte Analysis
 '''
-h_lymphocyte_markers = ['CD20', 'CD3', 'CD4', 'CD8a', 'CD103', 'HLAABC', 'VISTA', 'MMP7', 'IFNg','IL1alpha', 'IL1beta', 'IL1R1', 'IL12p40', 'IL17A', 'IL23p19', 'IL23R']
-h_lymphocyte_idx = adata_dict['PANEL_H'].obs['celltype'].isin(['T reg', 'CD4 T', 'CD8 T', 'B'])
-h_lymphocytes = adata_dict['PANEL_H'][h_lymphocyte_idx,h_lymphocyte_markers].copy()
-
 h_lymphocytes = sc.read(
     metadata['PANEL_H']['AnnData']['lymphocytes'],
     backup_url = metadata['PANEL_H']['AnnData']['lymphocytes_url']
 )
 
 # % of cells with proinflammatory signals
-cytokine = ['IFNg','IL1alpha', 'IL1beta', 'IL1R1', 'IL12p40', 'IL17A', 'IL23p19', 'IL23R']
 cytokine_expression = h_lymphocytes[:,cytokine].X.mean(axis=1)
 
 # barplot cytokine positive cell density
@@ -53,11 +49,7 @@ for pval in ['star', 'sci_not']:
 PANEL_G
 Lymphocyte Analysis
 '''
-g_lymphocyte_markers = ['CD20', 'CD3', 'CD4', 'FoxP3', 'CD8a', 'CD45', 'CD45RA', 'CD45RO', 'GranzymeB', 'Tbet', 'ICOS', 'CD25', 'CD27', 'CD28', '41BB', 'CCR4', 'CCR7', 'PD1', 'TIM3', 'CTLA4', 'LAG3']
-g_lymphocyte_idx = adata_dict['PANEL_G'].obs['celltype'].isin(['T reg', 'CD4 T', 'CD8 T', 'B'])
-g_lymphocytes = adata_dict['PANEL_G'][g_lymphocyte_idx,g_lymphocyte_markers].copy()
-
-g_lymphocytes = sc.read(                
+g_lymphocytes = sc.read(
     metadata['PANEL_G']['AnnData']['lymphocytes'],
     backup_url = metadata['PANEL_G']['AnnData']['lymphocytes_url']
 )
