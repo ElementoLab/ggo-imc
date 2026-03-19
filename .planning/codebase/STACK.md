@@ -5,114 +5,131 @@
 ## Languages
 
 **Primary:**
-- Python 3.9+ - All pipeline scripts, data processing, visualization
-- Snakemake (Python-based workflow) - Orchestration of figure generation pipeline
+- Python 3.10 - Main pipeline language for analysis scripts
+- R - For statistical analysis (asd.R, not currently in repository)
 
 **Secondary:**
-- R - Required for `scripts/asd.R` (hierarchical clustering, patient stratification; not yet committed to repo)
-- Shell/Bash - Container orchestration via `scripts/run_container.sh`
+- YAML - Configuration format for project metadata
 
 ## Runtime
 
 **Environment:**
-- Python 3.9 (specified in README; pyproject.toml requires >=3.10)
-- Conda for environment management
+- Python 3.10.15 (or higher, per pyproject.toml requires-python = ">=3.10")
 
 **Package Manager:**
-- pip (via conda environment)
-- Lockfile: requirements.txt (present but minimal; most dependencies come from parent sc-tools project)
+- pip (via setuptools, uv for dependency management)
+- Lockfile: requirements.txt present
+
+**Execution:**
+- Snakemake workflow orchestration
+- Docker/Apptainer container runtime for reproducibility
+- Native conda environment (ggo_imc) for R dependencies
 
 ## Frameworks
 
-**Core Data Science:**
-- scanpy 1.x - Single-cell/spatial data analysis
-- AnnData - In-memory representation of annotated data matrices
-- pandas - Tabular data manipulation
-- numpy - Numerical computations
-- scipy - Scientific computing (ndi, spatial operations)
+**Core Bioinformatics:**
+- `imc-analysis` (custom IMC analysis package) - Core analysis utilities and plotting
+- `scanpy` (1.11.5) - Single-cell analysis and AnnData manipulation
+- `anndata` (0.11.4) - Annotated data matrix format for storing analysis results
 
-**Domain-Specific:**
-- imc-analysis - Custom IMC (Imaging Mass Cytometry) analysis utilities (external package)
-- squidpy 1.6.1 - Spatial data analysis for cells, neighborhoods, and graphs
-- scimap - Single-cell image analysis platform (cell phenotyping, segmentation)
-- harmonypy - Batch integration via Harmony algorithm
-- leidenalg 0.10.2 - Community detection (Leiden clustering algorithm)
+**Batch Correction & Integration:**
+- `harmonypy` - Batch effect correction (Harmony integration)
+- `leidenalg` (0.10.2) - Community detection clustering algorithm
+- `squidpy` (1.6.1) - Spatial transcriptomics analysis
 
-**Visualization:**
-- matplotlib - Figure generation and saving
-- seaborn - Statistical graphics and plotting helpers
-- adjustText - Label placement optimization on scatter plots
+**Spatial & Domain Analysis:**
+- `scimap` - Spatial cell interaction mapping
+
+**Build/Workflow:**
+- Snakemake - Workflow orchestration and reproducibility
+- `setuptools` (>=61) - Package building
 
 **Testing:**
-- pytest - Test discovery and execution (config: `pyproject.toml` [tool.pytest.ini_options])
-
-**Utilities:**
-- tqdm - Progress bars for long-running operations
-- requests - HTTP requests (data download from Box)
-- tifffile - TIFF image I/O for microscopy data
-- ipython 8.18.1 - Interactive shell support
+- pytest (via tool.pytest.ini_options in pyproject.toml)
+- Test directory at `tests/`
 
 ## Key Dependencies
 
 **Critical:**
-- imc-analysis - Provides IMC-specific tools (`imc.utils.parse_yaml`, `imc.pl.celltype_heatmap`, `imc.tl.celltype_density`)
-- scanpy - Core single-cell analysis; used in every figure script
-- AnnData - Data structure for storing preprocessed panels (PANEL_G, PANEL_H)
-- squidpy 1.6.1 - UTAG microenvironment analysis (Figure 4: `ue_analysis.py`)
-- harmonypy - Batch integration for combining panels
-- leidenalg 0.10.2 - Graph-based clustering for cell types and communities
+- `scanpy` (1.11.5) - Core single-cell data structure and preprocessing
+- `anndata` (0.11.4) - Data format used throughout pipeline for HDF5-based analysis
+- `imc-analysis` - Custom wrapper providing IMC-specific utilities and analysis methods
+- `pandas` - Data manipulation and clinical metadata handling
+- `numpy` (2.0.2) - Numerical computation foundation
 
-**Infrastructure:**
-- pandas - Metadata merging, obs/var manipulation
-- numpy - Array operations, statistical functions
-- scipy - Neighbor calculations, morphology operations
-- matplotlib/seaborn - Multi-panel figure generation with publication-quality output
+**Scientific Computing:**
+- `scipy` (1.15.3) - Statistical tests and scientific functions
+- `matplotlib` (3.10.7) - Figure generation (PDF/raster output)
+- `seaborn` (0.13.2) - Statistical visualization and heatmaps
+- `tqdm` - Progress bars for long-running operations
+- `requests` - HTTP downloads for configuration files
+
+**Data Processing:**
+- `harmonypy` - Harmony batch correction
+- `leidenalg` (0.10.2) - Graph-based clustering
+- `squidpy` (1.6.1) - Spatial analysis operations
+- `scimap` - Spatial cell interaction scoring
+
+**Image Processing:**
+- `tifffile` - TIFF image reading/writing (for benchmark scripts)
+- `scikit-image` - Image processing utilities
+
+**Specialized:**
+- `IPython` (8.18.1) - Interactive environment (pinned version)
+- `geopandas` (1.1.2) - Geospatial operations (spatial cell coordinates)
 
 ## Configuration
 
 **Environment:**
-- `.env` files: Not detected; secrets/credentials managed at container level
-- Snakemake config: `config.yaml`
-  - `repo_root`: Path to sc-tools root (../../..)
-  - `project_rel`: Relative path from repo root to project (projects/imc/ggo-imc)
-  - `container_sif`: Path to sc_tools Apptainer/Docker image (containers/sc_tools.sif)
-
-**Data Configuration:**
-- Metadata YAML: `metadata/ggo_config.yml` (downloaded via `scripts/download_yaml.py`)
-  - Downloaded from Box: https://wcm.box.com/shared/static/mdntp2xf9tjobxeidkw93mg8jysb7nh9.yml
-  - Contains panel names (PANEL_G, PANEL_H), AnnData paths, backup URLs, cell type marker groups
-  - Parsed by `utils.load_config()` at script initialization
+- `config.yaml` - Project-level Snakemake config specifying paths and container image
+- `metadata/ggo_config.yml` - Downloadable configuration with panel-specific file paths, color palettes, and clinical metadata mappings
+- Environment variables: None detected; configuration is YAML-based
 
 **Build:**
-- `pyproject.toml` - Project metadata, pytest config, no additional build steps
-- `requirements.txt` - Minimal project-specific requirements (most deps from parent sc-tools)
-- Snakefile - Workflow rules for figures 1-5, data download, cleanup
+- `pyproject.toml` - Modern Python project configuration
+  - Build backend: setuptools
+  - Python version requirement: >=3.10
+  - pytest configuration with pythonpath
+  - No additional project dependencies (inherits from sc-tools base + deconvolution extra)
+
+**Container:**
+- `containers/sc_tools.sif` - Apptainer/Singularity image containing sc-tools base + dependencies
+- Used via `scripts/run_container.sh` wrapper for reproducible execution
 
 ## Platform Requirements
 
 **Development:**
-- macOS or Linux with Python 3.9+
-- Conda or similar environment manager
-- Either Docker (macOS) or Apptainer (Linux/HPC)
-- For Figure 5 R component: R with renv/Bioconductor packages in same conda env
+- Python 3.10+
+- Snakemake installed
+- Docker (macOS) or Apptainer/Singularity (Linux) for containerized execution
+- Conda with ggo_imc environment for R support
+- R and renv/Bioconductor packages (for asd.R statistical analysis)
 
-**Production:**
-- Apptainer container (sc_tools.sif) for consistent reproducibility
-- Zenodo/Box access for downloading processed and raw data
-- Disk space for 122 specimens × 2.24M cells (~multiple GB per panel)
+**Production/Execution:**
+- Container runtime (Docker or Apptainer)
+- Internet access for downloading:
+  - Config file: `https://wcm.box.com/shared/static/mdntp2xf9tjobxeidkw93mg8jysb7nh9.yml`
+  - Backup h5ad files from Box (various URLs for Panel G/H data)
+- ~200GB+ disk space for processed image data and analysis outputs
 
-## Container Strategy
+## Containerization
 
-**Runtime Auto-Detection:**
-- `scripts/run_container.sh` selects container based on platform:
-  - Docker on macOS
-  - Apptainer on Linux/HPC
-- Enables reproducible execution without local package conflicts
-- sc_tools image includes all Python dependencies except R
+**Image:** `containers/sc_tools.sif` (Apptainer/Singularity format)
 
-**Local Alternative:**
-- `SC_TOOLS_RUNTIME=none snakemake` bypasses containerization and uses local conda env
-- Required for R-dependent rules (patient rule runs Rscript directly)
+**Execution:**
+- Command wrapper: `scripts/run_container.sh` (auto-detects Docker vs. Apptainer)
+- Usage: `cd {repo_root} && ./scripts/run_container.sh {project_path} python {script}`
+- Note: R scripts run natively in conda env (not containerized)
+
+## Data Format
+
+**Primary:**
+- HDF5 via AnnData (.h5ad) - All single-cell data, expression matrices, metadata, UMAP coordinates
+- CSV - ROI metadata (areas, mean intensity, variance, spillover, masks)
+- TIFF - Source microscopy images and segmentation masks
+
+**Secondary:**
+- XLSX - Clinical annotations (De-identified clinical data)
 
 ---
 

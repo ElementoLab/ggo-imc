@@ -5,244 +5,214 @@
 ## Directory Layout
 
 ```
-projects/imc/ggo-imc/
-├── scripts/                    # Analysis scripts (pipeline + utilities)
-│   ├── utils.py               # Shared utilities (config, loading, saving)
-│   ├── celltype_heatmap_info.py     # Figure 1: cell type heatmap
-│   ├── roi_pca_plot.py        # Figure 1: ROI PCA (all pathologies)
-│   ├── celltype_differential_abundance.py  # Figures 2, 3: cell density plots
-│   ├── t_cell_analysis.py     # Figure 2: T cell functional analysis
-│   ├── myeloid_analysis.py    # Figure 2: myeloid polarization
-│   ├── epithelial_characterization.py  # Figure 3: epithelial phenotypes, EMT
-│   ├── ue_analysis.py         # Figure 4: microenvironments, TLS, interactions
-│   ├── roi_pca_plot_group.py  # Figure 5: PCA by patient risk group
-│   ├── patient_group.py       # Figure 5: patient risk stratification
-│   ├── download_yaml.py       # Utility: download config from Zenodo/Box
-│   ├── exploratory/           # Non-pipeline exploratory scripts
-│   └── scripts_backup/        # Previous versions (archived)
-├── tests/                      # Test suite (unit tests for utils, patient_group)
-│   ├── __init__.py
-│   ├── conftest.py            # pytest configuration
-│   ├── test_units.py          # Unit tests for utility functions
-│   └── test_imports.py        # Import validation
-├── Snakefile                   # Workflow orchestration (12 rules)
-├── config.yaml                 # Snakemake config (repo_root, project_rel)
-├── metadata/                   # Runtime metadata and configuration
-│   ├── ggo_config.yml         # Main config (downloaded at runtime)
-│   ├── backup/                # Cached metadata
-│   ├── interactions/          # Interaction analysis results
-│   └── roi_pca_anndata/       # PCA density matrices
-├── figures/                    # Generated output figures (main pipeline output)
-│   ├── figure1/               # Celltype heatmap, UMAP, ROI PCA
-│   ├── figure2/               # Immune dynamics (lymphoid, myeloid)
-│   ├── figure3/               # Stromal expansion, epithelial, EMT
-│   ├── figure4/               # Microenvironments, TLS, interactions
-│   ├── figure5/               # Patient risk groups, diagnostic gap
-│   ├── benchmark/             # Integration/segmentation benchmarks
-│   ├── demographics/          # Cohort overview figures
-│   ├── densities_*/           # Cell density outputs by condition
-│   ├── QC/                    # Quality control plots
-│   └── Figures/               # Manuscript composite figures
-├── figures_baseline/          # Reference output (for reproducibility checks)
-├── figures_backup/            # Previous generation outputs (archived)
-├── processed/                 # Intermediate analysis results
-│   ├── filtered/              # Filtered AnnData objects
-│   ├── quantification/        # Quantified cell-type data
-│   ├── PANEL_G/               # Panel-specific processed data
-│   ├── PANEL_H/               # Panel-specific processed data
-│   └── roi_pca_anndata/       # ROI-level density matrices
-├── results/                   # Statistical results and outputs
-│   ├── patient_csvs/          # Patient-level stratification results
-│   ├── phenotyping/           # Cell phenotyping outputs
-│   └── previous/              # Historical results
-├── data/                      # Raw input data
-│   └── IMAGES/                # Raw IMC image files
-├── images/                    # Segmented/labeled images
-│   ├── labeled/               # Cell segmentation masks
-│   └── stack/                 # Image stacks
-├── .planning/                 # GSD planning directory
-│   └── codebase/              # This analysis (ARCHITECTURE.md, STRUCTURE.md)
-├── .claude/                   # Claude agent profiles
-├── .snakemake/                # Snakemake runtime metadata
-├── documentation/             # Manuscript drafts, meeting notes
-├── previous_code/             # Legacy code (archived)
-├── README.md                  # Repository overview
-├── Plan.md                    # Project plan and phase tracking
-├── pyproject.toml             # Python project metadata
-├── requirements.txt           # Package dependencies
-├── Snakefile                  # Main workflow definition
-├── figures_checksums.md5      # Reproducibility verification manifest
-├── input_data_checksums.md5   # Input data integrity check
-└── *.done                     # Sentinel files (rule completion markers)
+ggo-imc/
+├── Snakefile                           # Main pipeline orchestration
+├── config.yaml                         # Snakemake configuration (repo_root, project_rel)
+├── requirements.txt                    # Python dependencies
+├── pyproject.toml                      # Project metadata
+├── README.md                           # Documentation and reproducibility guide
+├── figures_checksums.md5               # Output checksum manifest for verification
+├── .claude/                            # Claude agent configuration
+│   └── settings.local.json             # Local settings
+├── metadata/                           # Configuration and metadata
+│   └── ggo_config.yml                  # (Downloaded at runtime) Panel paths, colors, markers
+├── scripts/                            # Analysis and utility scripts
+│   ├── utils.py                        # Shared utilities: config/data loading, figure saving
+│   ├── celltype_heatmap_info.py        # Figure 1: cell type heatmap and UMAP plots
+│   ├── roi_pca_plot.py                 # Figure 1: ROI PCA archetype overlay
+│   ├── celltype_differential_abundance.py # Figures 2, 3: differential density analysis
+│   ├── t_cell_analysis.py              # Figure 2: T cell functional states
+│   ├── myeloid_analysis.py             # Figure 2: myeloid/macrophage polarization
+│   ├── epithelial_characterization.py  # Figure 3: epithelial phenotypes and EMT
+│   ├── ue_analysis.py                  # Figure 4: UTAG microenvironment analysis
+│   ├── roi_pca_plot_group.py           # Figure 5: patient group PCA clustering
+│   ├── patient_group.py                # Figure 5: patient risk stratification and scores
+│   ├── download_yaml.py                # Utility: download config from cloud
+│   ├── concat_anndata.py               # Utility: concatenate per-sample AnnData
+│   ├── label_metadata_anndata.py       # Utility: attach clinical metadata
+│   ├── generate_manifests.py           # Utility: generate batch manifests
+│   ├── benchmark_integration.py        # Utility: compare integration methods
+│   ├── benchmark_segmentation.py       # Utility: compare segmentation approaches
+│   ├── exploratory/                    # Exploratory scripts (not in main pipeline)
+│   └── scripts_backup/                 # Archived scripts (legacy implementations)
+├── tests/                              # Unit tests
+│   ├── __init__.py                     # Test package marker
+│   ├── conftest.py                     # Pytest configuration and fixtures
+│   ├── test_imports.py                 # Verify module imports
+│   └── test_units.py                   # Unit tests: utils.py, patient_group.py
+├── figures/                            # Generated output figures (per-figure subdirectories)
+│   ├── figure1/                        # Cell type heatmaps and ROI PCA
+│   │   ├── celltype/                   # Per-panel heatmaps and UMAPs
+│   │   │   ├── PANEL_G/
+│   │   │   └── PANEL_H/
+│   │   └── roi_pca_all_combined.pdf
+│   ├── figure2/                        # Immune cell density and functional analysis
+│   │   ├── densities_lymphoid/         # T cell and B cell density
+│   │   ├── densities_myeloid/          # Macrophage and myeloid density
+│   │   └── (t cell, myeloid plots)
+│   ├── figure3/                        # Stromal and epithelial analysis
+│   │   ├── densities_stromal/          # Fibroblast density
+│   │   ├── densities_epithelial/       # Epithelial cell density
+│   │   ├── epithelial_proportion_*.pdf # Epithelial phenotype proportions
+│   │   └── EMT proportion.pdf          # PanCK vs Vimentin density
+│   ├── figure4/                        # Microenvironment analysis
+│   │   ├── PANEL_G_uE_broad_*/         # Per-panel microenvironment composition
+│   │   ├── PANEL_H_uE_broad_*/
+│   │   ├── PANEL_G/uE_area/            # Area-based statistical tests
+│   │   └── uE_broad/pathology/         # Functional marker dotplots
+│   └── figure5/                        # Patient stratification
+│       ├── group_process_scores.pdf
+│       ├── cond_prob_*.pdf             # Conditional probability plots
+│       └── (group-level analysis plots)
+├── figures_baseline/                   # Reference baseline figures (for testing)
+├── figures_backup/                     # Historical figure versions
+├── data/                               # Local data directory
+│   └── IMAGES/                         # IMC image files (organized by panel)
+├── documentation/                      # Papers, meeting notes, submission materials
+│   └── 251229 Cancer Cell Submission/
+│       └── Figures/                    # Manuscript figures
+└── .snakemake/                         # Snakemake cache (auto-generated)
 ```
 
 ## Directory Purposes
 
-**`scripts/`:**
-- Purpose: All Python analysis code for the pipeline
-- Contains: 9 figure-generation scripts, utility functions, download script, archived versions
-- Key files: `utils.py` (shared layer), `celltype_*.py`, `*_analysis.py`, `roi_pca_*.py`, `patient_*.py`
-- Output: Figure files (PDF/PNG) saved to `figures/` by each script
+**scripts/:**
+- Purpose: All analysis code, organized by figure and function type
+- Contains: Figure-generation scripts, utility scripts, benchmarks, exploratory code
+- Key files: `utils.py` (core), figure-specific scripts (`celltype_heatmap_info.py`, `roi_pca_plot.py`, etc.)
 
-**`tests/`:**
-- Purpose: Unit test suite for utility functions and business logic
-- Contains: pytest tests for `utils.py` and `patient_group.py`
-- Key files: `test_units.py` (TestEnsureDir, TestLoadPanelsValidation, TestCondProb)
-- Excludes: Integration tests, E2E tests (not present in codebase)
+**metadata/:**
+- Purpose: Project-level configuration and annotations
+- Contains: `ggo_config.yml` (downloaded at runtime from Box)
+- Key files: Config YAML with per-panel AnnData paths, marker lists, color schemes, condition labels
 
-**`metadata/`:**
-- Purpose: Store and manage configuration and intermediate analysis artifacts
-- Contains: `ggo_config.yml` (main config, downloaded at runtime), interaction matrices, PCA density outputs
-- Key files: `ggo_config.yml`, `roi_pca_anndata/`, `interactions/`
-- Not committed: Raw config (downloaded on first run)
+**tests/:**
+- Purpose: Validation of core utility functions and pure functions
+- Contains: Pytest unit tests for `utils.py` and `patient_group.py`
+- Key files: `test_units.py` (main tests), `conftest.py` (fixtures)
 
-**`figures/`:**
-- Purpose: Output directory for all generated figures
-- Contains: Figure outputs organized by figure number (figure1–5), plus benchmarks, demographics, QC
-- Key structure: `figures/figure{1-5}/` with subdirectories per analysis (e.g., `figure2/densities_immune/`, `figure4/uE_broad/`)
-- Output by: Each analysis script via `save_figure()`
+**figures/:**
+- Purpose: All generated publication figures, organized by figure number
+- Contains: PDFs, PNGs, SVGs organized by figure/component/panel
+- Key files: Linked to Snakemake `.done` sentinels (via rule outputs)
 
-**`figures_baseline/`:**
-- Purpose: Baseline reference figures for reproducibility verification
-- Contains: Known-good outputs from verified pipeline run
-- Usage: Compared against generated `figures/` using checksum manifest (`figures_checksums.md5`)
+**data/:**
+- Purpose: Local IMC image and raw data storage
+- Contains: IMAGES directory with per-panel and per-sample image files
+- Key files: Referenced in config YAML metadata
 
-**`processed/`:**
-- Purpose: Store intermediate analysis results and cached computations
-- Contains: Filtered AnnData objects, quantification matrices, panel-specific data, ROI-level density matrices
-- Examples: `processed/quantification/`, `processed/filtered/`, `processed/roi_pca_anndata/`
-- Caching: Some scripts check for precomputed results (e.g., `myeloid_analysis.py` checks for cached UMAP before recomputation)
-
-**`results/`:**
-- Purpose: Final statistical results and patient-level stratification
-- Contains: Patient-level CSV outputs, phenotyping results, historical results
-- Examples: `results/patient_csvs/`, `results/phenotyping/`
-
-**`data/` and `images/`:**
-- Purpose: Input data (raw images, segmentation masks)
-- Contains: Raw IMC image stacks, labeled segmentation masks, image quantification files
-- Size: Large (raw images are multi-channel TIFF stacks)
-- Committed: No (tracked separately, available on Zenodo)
-
-**`.snakemake/`:**
-- Purpose: Snakemake runtime metadata and caching
-- Contains: Logs, metadata, shadows, conda environments, lock files
-- Not committed: Generated at runtime
-
-**`.planning/`:**
-- Purpose: GSD (Claude orchestrator) planning documentation
-- Contains: Phase tracking, execution plans, codebase analysis (this directory)
-- Key files: `Plan.md` (updated by documentor), `codebase/ARCHITECTURE.md`, `codebase/STRUCTURE.md`
+**documentation/:**
+- Purpose: Manuscript materials, meeting notes, submission documents
+- Contains: Latex/PDF versions of figures, journal submission materials
+- Key files: Not part of pipeline; for reference only
 
 ## Key File Locations
 
 **Entry Points:**
-- `Snakefile`: Workflow orchestration, defines all rules and targets
-- `scripts/*.py`: Individual analysis scripts (9 pipeline scripts)
-- `scripts/download_yaml.py`: First step in pipeline (downloads config)
+- `Snakefile`: Main orchestration entry point; invoked as `snakemake -d . -s Snakefile [target]`
+- `scripts/celltype_heatmap_info.py`: Figure 1 entry (loads config, generates heatmap)
+- `scripts/roi_pca_plot.py`: Figure 1 entry (ROI PCA analysis)
 
 **Configuration:**
-- `config.yaml`: Snakemake configuration (repo_root, project_rel, container_sif)
-- `metadata/ggo_config.yml`: Runtime metadata (downloaded from Box/Zenodo)
+- `config.yaml`: Snakemake config (repo paths)
+- `metadata/ggo_config.yml`: Project config (AnnData paths, metadata, colors) — downloaded at runtime
 
 **Core Logic:**
-- `scripts/utils.py`: Shared utilities (load_config, load_panels, save_figure, ensure_dir)
-- `scripts/celltype_heatmap_info.py`: Cell type heatmap and UMAP for Figure 1
-- `scripts/roi_pca_plot.py`: ROI PCA archetype plot (Figure 1)
-- `scripts/celltype_differential_abundance.py`: Density comparison across conditions (Figures 2, 3)
-- `scripts/t_cell_analysis.py`: Lymphocyte functional state analysis (Figure 2)
-- `scripts/myeloid_analysis.py`: Myeloid cell polarization (Figure 2)
-- `scripts/epithelial_characterization.py`: Epithelial subtypes and EMT (Figure 3)
-- `scripts/ue_analysis.py`: Microenvironment composition and interactions (Figure 4)
-- `scripts/roi_pca_plot_group.py`: PCA colored by patient risk group (Figure 5)
-- `scripts/patient_group.py`: Patient risk stratification (Figure 5)
+- `scripts/utils.py`: Shared loading/saving functions; imported by all figure scripts
+- `scripts/celltype_differential_abundance.py`: Shared density analysis; called for Figures 2 and 3
+- `imc_analysis` (external package): Domain-specific tasks (heatmaps, density, statistical tests)
 
 **Testing:**
-- `tests/test_units.py`: Unit tests for utils.py and patient_group.py
-- `tests/conftest.py`: pytest fixtures and configuration
-
-**Verification:**
-- `figures_checksums.md5`: MD5 hashes of baseline figures for reproducibility
-- `input_data_checksums.md5`: MD5 hashes of input data files
+- `tests/test_units.py`: Unit tests for `utils.ensure_dir()`, `utils.load_panels()`, `patient_group.cond_prob()`
+- `tests/conftest.py`: Pytest fixtures and import configuration
 
 ## Naming Conventions
 
 **Files:**
-- Pipeline scripts: `{analysis}_{target}.py` (e.g., `celltype_heatmap_info.py`, `roi_pca_plot.py`)
-- Utility scripts: `{purpose}.py` (e.g., `utils.py`, `download_yaml.py`)
-- Test files: `test_*.py` (e.g., `test_units.py`)
-- Config: YAML files in `metadata/` (e.g., `ggo_config.yml`)
-- Output figures: Named by content (e.g., `celltype_heatmap.pdf`, `roi_pca_all_combined.pdf`)
+- Pipeline scripts: `{cell_type}_{analysis_type}.py` (e.g., `t_cell_analysis.py`, `epithelial_characterization.py`)
+- Utility scripts: Descriptive verb-noun (e.g., `download_yaml.py`, `concat_anndata.py`)
+- Test files: `test_{module}.py` (e.g., `test_units.py`)
+- Config files: All lowercase with underscores (e.g., `ggo_config.yml`)
 
 **Directories:**
-- Figure outputs: `figures/figure{1-5}/` (by figure number)
-- Analysis outputs: `figures/{figure}/densities_{lineage}/{panel}/` (e.g., `figures/figure2/densities_immune/PANEL_G/`)
-- Panels: Named `PANEL_G`, `PANEL_H` (marker sets)
-- Conditions: `pathology`, `radio` (pathology and radiology), `Group` (patient risk group)
+- Figure output: `figures/figure{N}/` for each manuscript figure
+- Component subdivision: `figures/figure{N}/{component_name}/{panel}/`
+- Test directory: `tests/` at project root
 
-**Variables:**
-- Panel iterator: `p` (e.g., `for p in ['PANEL_G', 'PANEL_H']`)
-- Metadata dict: `metadata` (from `load_config()`)
-- AnnData objects: `adata`, `adata_dict` (panel-keyed dict)
-- Density matrices: `density`, `*_density` (output of `imc.tl.celltype_density()`)
-- Cell lineage categories: `celltype`, `celltype_broad` (from config or AnnData.obs)
+**Functions in utils.py:**
+- camelCase with `_` separators: `load_config()`, `load_panels()`, `load_single_panel()`, `save_figure()`, `ensure_dir()`
+- Constants: SCREAMING_SNAKE_CASE: `CONFIG_PATH`, `PANELS`, `CYTOKINE`
+
+**Variables in scripts:**
+- Abbreviations: `adata` (AnnData object), `p` (panel), `cond` (condition), `fig` (matplotlib figure)
+- Boolean prefixes: `is_`, e.g., no usage observed but pattern would be standard
+- Iterate vars: Single letter for inner loops (e.g., `for i, ax in enumerate(axes)`)
 
 ## Where to Add New Code
 
-**New Figure/Analysis:**
-- Primary code: `scripts/new_analysis.py` (import from `utils.py`, follow pattern of existing scripts)
-- Add rule to `Snakefile` (define input/output, call `run_container()`)
-- Add to appropriate figure aggregate rule (e.g., `rule figure6: input: ...`)
-- Output figures to `figures/figure6/` directory
-- Test: Add unit tests to `tests/test_units.py` if logic is extracted as a pure function
+**New Figure Analysis:**
+1. Create script: `scripts/{domain}_{analysis}.py`
+2. Import from utils: `from utils import load_config, load_panels, save_figure, ensure_dir`
+3. Follow pattern:
+   ```python
+   if __name__ == '__main__':
+       metadata = load_config()
+       adata_dict = load_panels(metadata)
+       # ... analysis ...
+       save_figure('figures/figure{N}/{name}.pdf')
+   ```
+4. Create Snakemake rule in `Snakefile`:
+   ```snakemake
+   rule my_analysis:
+       output: touch("my_analysis.done")
+       input: "scripts/my_analysis.py"
+       shell: run_container("scripts/my_analysis.py") + " && touch my_analysis.done"
+   ```
+5. Add to aggregation rule: `rule figure{N}: input: "my_analysis.done", ...`
 
 **New Utility Function:**
-- Implementation: `scripts/utils.py` (add function with docstring)
-- Pattern: Functions should be config-agnostic (take parameters explicitly) or use module-level constants (PANELS, CYTOKINE)
-- Export: No explicit export list; all functions available to importing scripts
-- Testing: Add test class to `tests/test_units.py` if function is testable without AnnData
+1. Add to `scripts/utils.py` with docstring
+2. Follow existing patterns (see `load_panels()` signature and validation)
+3. Add unit test to `tests/test_units.py`
+4. Import in figure scripts via `from utils import new_function`
 
-**New Configuration Key:**
-- Location: `metadata/ggo_config.yml` (YAML format)
-- Access: Via `metadata[key]` or `metadata[panel]['AnnData'][key]`
-- Pattern: Follow existing structure (panel-level dicts, AnnData section, color palettes)
-
-**New Cell Type/Marker Set:**
-- Location: Define in analysis script or `metadata/ggo_config.yml`
-- Pattern: Existing scripts inline lists (e.g., `pro_inflammatory_markers`) or load from config
-- Usage: Pass to `scanpy` functions or `imc_analysis` functions
-
-**New Benchmark/Exploratory Script:**
-- Location: `scripts/benchmark_*.py` (not included in pipeline) or `scripts/exploratory/`
-- Pattern: Can import from `utils.py` but not required to follow pipeline discipline
-- Execution: Run manually, not via Snakemake rule
+**New Test:**
+1. Add test class to `tests/test_units.py`
+2. Use pytest fixtures from `conftest.py` (e.g., `tmp_path`)
+3. Follow AAA pattern (Arrange, Act, Assert)
+4. Run with: `pytest tests/test_units.py::TestClassName::test_method`
 
 ## Special Directories
 
-**`scripts_backup/`:**
-- Purpose: Archive of previous script versions
-- Generated: No (manually maintained)
-- Committed: Yes (serves as historical record)
+**figures/:**
+- Purpose: Generated manuscript outputs
+- Generated: Yes (created by figure scripts via `save_figure()`)
+- Committed: No (*.pdf, *.png ignored via .gitignore, except checksums file)
+- Cleanup: `snakemake -d . -s Snakefile clean` removes `.done` sentinels (not figures themselves)
 
-**`.snakemake/`:**
-- Purpose: Snakemake internal state
-- Generated: Yes (at runtime)
-- Committed: No (in .gitignore)
+**data/:**
+- Purpose: Local IMC raw data and images
+- Generated: No (user-downloaded)
+- Committed: No (large binary files)
+- Structure: Referenced in `ggo_config.yml` under per-panel paths
 
-**`figures_baseline/`:**
-- Purpose: Reference baseline figures for reproducibility
-- Generated: Yes (committed as baseline after verification)
-- Committed: Yes (serves as gold standard)
+**.snakemake/:**
+- Purpose: Snakemake runtime cache and logs
+- Generated: Yes (auto-created by Snakemake)
+- Committed: No (.gitignore)
+- Content: Rule dependency graphs, execution logs
 
-**`.pytest_cache/`:**
-- Purpose: pytest internal caching
-- Generated: Yes (at runtime)
-- Committed: No (in .gitignore)
+**scripts_backup/:**
+- Purpose: Legacy script versions (pre-refactor)
+- Generated: No (manually archived)
+- Committed: Yes (for historical reference)
+- Status: Not used in current pipeline; can be deleted
 
-**`.claude/`:**
-- Purpose: Claude agent profiles and instructions
-- Generated: No (manually maintained by orchestrator)
-- Committed: Yes (shared context for agents)
+**metadata/:**
+- Purpose: Configuration storage (ggo_config.yml downloaded at runtime)
+- Generated: Yes (downloaded from Box in `download` rule)
+- Committed: No (ggo_config.yml has dynamic paths; .gitignore)
+- Note: Directory itself committed; YAML file is generated
 
 ---
 

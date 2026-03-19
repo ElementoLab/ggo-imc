@@ -4,127 +4,120 @@
 
 ## APIs & External Services
 
-**Data Download:**
-- Box (Weill Cornell Medicine shared storage)
-  - Service: Cloud file storage and sharing
-  - What it's used for: Distribution of metadata YAML config file
-  - SDK/Client: `requests` (HTTP GET)
-  - URL: `https://wcm.box.com/shared/static/mdntp2xf9tjobxeidkw93mg8jysb7nh9.yml`
-  - Invoked by: `scripts/download_yaml.py` via `utils.load_config()`
-
-**Data Repository:**
-- Zenodo
-  - Service: Open-access scientific data repository
-  - What it's used for: Long-term archival of processed and raw IMC data
-  - DOI references documented in README.md but accessed via external tools (wget/curl, not within Python)
-  - Processed Data DOI: 10.5281/zenodo.14822106
-  - Raw Data DOI: 10.5281/zenodo.14822106
+**Box (Weill Cornell Shared Storage):**
+- Configuration file download: `https://wcm.box.com/shared/static/mdntp2xf9tjobxeidkw93mg8jysb7nh9.yml`
+- Panel G backup datasets (multiple h5ad files via URLs):
+  - Phenotyped UMAP: `https://wcm.box.com/shared/static/u7po2u5f3stjxl27rw7qxble4j7kur1g.h5ad`
+  - Lymphocytes: `https://wcm.box.com/shared/static/qxxxd62zzmme42uhks5dy5jsxnctb0al.h5ad`
+  - Myeloids: `https://wcm.box.com/shared/static/0cplylp3n6t4udzvuqtnnd31q3rhyq3y.h5ad`
+  - UTAG: `https://wcm.box.com/shared/static/0tj5jcl4m37muhm9afnvks4b3sd9lpsz.h5ad`
+- Panel H backup datasets (multiple h5ad files via URLs):
+  - Phenotyped UMAP: `https://wcm.box.com/shared/static/ueuwm6wufc479sbhd5utc6p6vkgiated.h5ad`
+  - Lymphocytes: `https://wcm.box.com/shared/static/puxd3c4eevitsk55x7nhbhdie81muygf.h5ad`
+  - Myeloids: `https://wcm.box.com/shared/static/qdj6q7rcgumfucil6dzhxcw06lsk7x20.h5ad`
+- PCA anndata: `https://wcm.box.com/shared/static/faeuq6ojwqzm2wb7mlsv7hgi1jmg5yst.h5ad`
+- Patient celltype grouped: `https://wcm.box.com/shared/static/ogypsajbwwlrpjuifpri4gng1rf1rc2z.h5ad`
+  - SDK/Client: `requests` library
+  - Fallback mechanism: `sc.read(..., backup_url=...)` in scanpy handles automatic download if local file missing
 
 ## Data Storage
 
 **Databases:**
-- Not applicable — no SQL/NoSQL databases used
-- Data format: HDF5 (via AnnData .h5ad files)
-  - Location: Referenced in metadata YAML under `AnnData` paths
-  - Client: `scanpy.read()` (wraps h5py/tables)
-  - Backup URLs: Metadata includes `backup_url` for each panel in case primary path is unavailable
+- None - Analysis uses file-based HDF5 (AnnData) format stored locally
 
 **File Storage:**
 - Local filesystem only
-  - Data: AnnData matrices (.h5ad files) stored locally after download
-  - Processed outputs: Figures stored in `figures/figure{1-5}/` subdirectories
-  - Artifacts: Sentinel files (*.done) track Snakemake rule completion
-  - Sample outputs: `.pdf`, `.png`, `.svg` formats for publication
+  - Local data directory: `data/` (processed IMC images)
+  - Results: `results/` (HDF5 output)
+  - Processed images: `processed/PANEL_G/` and `processed/PANEL_H/` (TIFF images and masks)
+  - Metadata: `metadata/` (CSV ROI data, Excel clinical annotations, downloadable YAML config)
+
+**Remote Backup:**
+- Box.com for h5ad backup files
+- Automatic fallback: if local file missing, scanpy's `backup_url` parameter triggers HTTP download
 
 **Caching:**
-- Not detected — no explicit caching layer
-- Snakemake uses sentinel files (*.done) to avoid re-running completed rules
-- Backup URLs in metadata YAML serve as failover mechanism for data loading
+- None - No explicit caching layer; Snakemake manages intermediate outputs via touch files
 
 ## Authentication & Identity
 
 **Auth Provider:**
-- Not applicable — no user authentication system
-- Data access via Box: Public shared link (no credentials required in code)
-- Zenodo access: Direct download (no authentication); restricted access may be enforced by repository until publication
+- None - Box URLs are public/shared links (no credentials required)
+- Configuration stored in code: URLs hardcoded in `metadata/ggo_config.yml`
 
 ## Monitoring & Observability
 
 **Error Tracking:**
-- Not detected — no error reporting service (Sentry, etc.)
-- Errors surfaced via stdout/stderr from Python scripts
+- None detected
 
 **Logs:**
-- Approach: Standard Python logging (via scanpy.logging)
-- scanpy.logging outputs to stdout/stderr with configurable verbosity
-- Snakemake logs rule execution to .log files (not detected in this project)
+- Console output via Snakemake and scanpy logging
+- Snakemake log: `logs/` directory (managed by workflow)
+- scanpy logging: `sc.logging.info(...)` calls in pipeline scripts (e.g., `scripts/utils.py`)
 
 ## CI/CD & Deployment
 
 **Hosting:**
-- GitHub repository (source of truth for code)
-- Zenodo (permanent archival of data)
-- No continuous deployment — figures are generated locally by researchers or on HPC
+- Local execution (Weill Cornell institutional environment)
+- No cloud deployment detected
 
 **CI Pipeline:**
-- Pytest-based smoke testing
-  - Config: `pyproject.toml` [tool.pytest.ini_options]
-  - Test files: `tests/test_imports.py`, `tests/test_units.py`
-  - Fixtures: `tests/conftest.py` with mocked imc_analysis, scanpy, and seaborn
-  - Purpose: Verify all 10 pipeline scripts import without errors and execute basic workflows
-- No automated GitHub Actions detected
-
-**Snakemake Orchestration:**
-- Workflow definition: `Snakefile`
-- Invocation: `snakemake -d . -s Snakefile [target]`
-- Targets: `figure1` through `figure5`, `all`, `download`, `clean`
+- None - Manual execution via Snakemake
+- Containerization: Docker (macOS) / Apptainer (Linux) for reproducibility
+- Container built externally as `containers/sc_tools.sif`
 
 ## Environment Configuration
 
 **Required env vars:**
-- Not detected — no environment variables required for normal operation
-- Optional: `SC_TOOLS_RUNTIME` (controls container mode; default: auto-detect via run_container.sh)
+- `SC_TOOLS_RUNTIME` - Controls container runtime:
+  - Default: auto-detect (Docker on macOS, Apptainer on Linux)
+  - `SC_TOOLS_RUNTIME=none` - Native conda environment without container
+
+**Configuration files:**
+- `config.yaml` - Snakemake config (repo paths, container image)
+- `metadata/ggo_config.yml` - Panel-specific paths, color schemes, clinical metadata (downloaded at runtime)
 
 **Secrets location:**
-- Not applicable — no API keys, tokens, or credentials in code
-- Box URL is public shared link
-- Zenodo access is direct download (no authentication)
+- Not applicable - No API keys or credentials required
+- Box URLs are public shared links
 
 ## Webhooks & Callbacks
 
 **Incoming:**
-- Not detected — no webhook endpoints
+- None
 
 **Outgoing:**
-- Not detected — no callbacks to external services
+- None
 
-## Data Sources & Workflows
+## Data Download Flow
 
-**Download Workflow:**
-```
-1. User runs: snakemake figure1 (or any rule)
-2. Rule invokes: python scripts/download_yaml.py
-3. download_yaml.py calls: requests.get(CONFIG_URL)
-4. Config downloaded to: metadata/ggo_config.yml
-5. All scripts call: utils.load_config() → reads local YAML
-6. Metadata contains AnnData paths (local .h5ad files)
-7. Scripts load panels: utils.load_panels(metadata) → sc.read(path, backup_url=url)
-```
+**Configuration Download (`scripts/download_yaml.py`):**
+1. HTTP GET to Box URL via `requests.get()`
+2. Stream response with `tqdm` progress bar
+3. Save to `metadata/ggo_config.yml`
+4. Called by Snakemake `download` rule on startup
 
-**Backup URL Pattern:**
-- Each panel in metadata YAML includes a `backup_url` field
-- If primary path does not exist on filesystem, scanpy.read() falls back to backup_url
-- Backup URLs are HTTP(S) endpoints serving .h5ad files (via Box or cloud storage)
+**AnnData Download (implicit in `sc.read(..., backup_url=...)`):**
+1. Scanpy checks for local file first
+2. If missing, HTTP GET to Box backup URL
+3. Save and load as HDF5
 
-**Container Execution:**
-```
-1. Snakemake rule: shell: run_container("scripts/celltype_heatmap_info.py")
-2. run_container() function wraps: ./scripts/run_container.sh {project} python {script}
-3. run_container.sh auto-detects runtime (Docker on macOS, Apptainer on Linux)
-4. Spins up sc_tools container with mounted project directory
-5. Python script executes inside container with isolated dependencies
-6. Output files written to mounted project directory (visible on host)
-```
+**Image Data:**
+- Pre-processed TIFF files stored locally in `processed/PANEL_G/*/tiffs/` and `processed/PANEL_H/*/tiffs/`
+- No external download mechanism (loaded from local filesystem)
+
+## Clinical & Metadata Integration
+
+**Clinical Data:**
+- Source: `metadata/De-identified J&J Clinical Annotations_UpdatedAAH031523 (1).xlsx`
+- Format: Excel spreadsheet with de-identified patient metadata
+- Integration: Loaded in patient analysis scripts (e.g., `scripts/patient_group.py`)
+- Fields: pathology, radiology, smoking status, gender, race, risk predictions
+
+**ROI Metadata:**
+- CSV files for each panel (Panel_G_ROI_area.csv, Panel_H_ROI_mean.csv, etc.)
+- Contains: ROI areas, mean intensity, variance, nucleus/cytoplasm masks, spillover matrices
+- Used for spatial analysis and quality control
 
 ---
 
