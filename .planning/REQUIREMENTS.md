@@ -74,46 +74,44 @@
 
 ## Traceability
 
-*Populated during roadmap creation.*
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CLUS-01 | — | Pending |
-| CLUS-02 | — | Pending |
-| CLUS-03 | — | Pending |
-| ANA-01 | — | Pending |
-| ANA-02 | — | Pending |
-| ANA-03 | — | Pending |
-| ANA-04 | — | Pending |
-| ANA-05 | — | Pending |
-| ANA-06 | — | Pending |
-| ANA-07 | — | Pending |
-| FIG-01 | — | Pending |
-| FIG-02 | — | Pending |
-| FIG-03 | — | Pending |
-| FIG-04 | — | Pending |
-| FIG-05 | — | Pending |
-| FIG-06 | — | Pending |
-| FIG-07 | — | Pending |
-| TXT-01 | — | Pending |
-| TXT-02 | — | Pending |
-| TXT-03 | — | Pending |
-| TXT-04 | — | Pending |
-| TXT-05 | — | Pending |
-| TXT-06 | — | Pending |
-| TXT-07 | — | Pending |
-| TXT-08 | — | Pending |
-| TXT-09 | — | Pending |
-| TXT-10 | — | Pending |
-| TXT-11 | — | Pending |
-| TXT-12 | — | Pending |
-| TXT-13 | — | Pending |
+| CLUS-01 | Phase 1 | Pending |
+| CLUS-02 | Phase 1 | Pending |
+| CLUS-03 | Phase 1 | Pending |
+| ANA-01 | Phase 1 | Pending |
+| ANA-02 | Phase 1 | Pending |
+| ANA-03 | Phase 1 | Pending |
+| ANA-04 | Phase 1 | Pending |
+| ANA-05 | Phase 1 | Pending |
+| ANA-06 | Phase 1 | Pending |
+| ANA-07 | Phase 1 | Pending |
+| FIG-01 | Phase 2 | Pending |
+| FIG-02 | Phase 2 | Pending |
+| FIG-03 | Phase 2 | Pending |
+| FIG-04 | Phase 2 | Pending |
+| FIG-05 | Phase 2 | Pending |
+| FIG-06 | Phase 2 | Pending |
+| FIG-07 | Phase 2 | Pending |
+| TXT-01 | Phase 3 | Pending |
+| TXT-02 | Phase 3 | Pending |
+| TXT-03 | Phase 3 | Pending |
+| TXT-04 | Phase 3 | Pending |
+| TXT-05 | Phase 3 | Pending |
+| TXT-06 | Phase 3 | Pending |
+| TXT-07 | Phase 3 | Pending |
+| TXT-08 | Phase 3 | Pending |
+| TXT-09 | Phase 3 | Pending |
+| TXT-10 | Phase 3 | Pending |
+| TXT-11 | Phase 3 | Pending |
+| TXT-12 | Phase 3 | Pending |
+| TXT-13 | Phase 3 | Pending |
 
 **Coverage:**
 - Milestone 1 requirements: 30 total
-- Mapped to phases: 0
-- Unmapped: 30 ⚠️
+- Mapped to phases: 30
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-03-19*
-*Last updated: 2026-03-19 after initial definition*
+*Last updated: 2026-03-19 — traceability populated after roadmap creation*
