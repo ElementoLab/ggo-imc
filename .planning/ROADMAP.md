@@ -25,10 +25,16 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Success Criteria** (what must be TRUE):
   1. Silhouette width plot exists confirming k=4 is optimal; alternative clustering (k-means or Leiden) concordance with hierarchical result is quantified and documented
   2. Sensitivity and specificity of G4 for identifying PNS/IAC cases are computed and a number can be cited in the response letter
-  3. Yoffe et al. cohort is stratified into G1–G4 using this study's signatures; risk patterns in external cohort match internal findings directionally
-  4. Clinical covariate tables (driver mutations, smoking, IASLC grade, PNS/IAC case counts) broken down by G1–G4 are produced and ready to insert into figures or supplementary
-  5. Adjusted p-values for Fig 2l–m M1 comparisons are confirmed and inter-panel consistency between tumor and immune panels is addressed in the analysis record
-**Plans**: TBD
+  3. Yoffe et al. cohort is stratified into G1-G4 using this study's signatures; risk patterns in external cohort match internal findings directionally
+  4. Clinical covariate tables (driver mutations, smoking, IASLC grade, PNS/IAC case counts) broken down by G1-G4 are produced and ready to insert into figures or supplementary
+  5. Adjusted p-values for Fig 2l-m M1 comparisons are confirmed and inter-panel consistency between tumor and immune panels is addressed in the analysis record
+**Plans**: 4 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Clustering validation: silhouette sweep, k-means concordance, G4 sens/spec
+- [ ] 01-02-PLAN.md — Clinical covariate breakdowns: mutations, smoking, IASLC proxy, PNS-IAC counts
+- [ ] 01-03-PLAN.md — Yoffe cohort stratification: centroid nearest-neighbor assignment and enrichment test
+- [ ] 01-04-PLAN.md — Adjusted p-values confirmation and inter-panel consistency documentation
 
 ### Phase 2: Figure Revisions
 **Goal**: All figure panels in the manuscript correctly display individual data points, accurate labels, marker-appropriate scores, and complete extended figures
@@ -49,7 +55,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Success Criteria** (what must be TRUE):
   1. No sentence in the manuscript asserts causation or mechanism; all such language is replaced with correlational phrasing ("associated with", "correlated with") throughout
   2. Zhu et al. 2025 (PMID 40345189) is cited in the introduction and/or discussion with explicit articulation of overlap and how this study is differentiated
-  3. All discrete text errors are fixed: 'Grou p 3' (line 263), G3→G4 (line 294), 'black and green dotted lines' (line 231), 'Clara cells'→'Club cells' (line 37), "Similar to our previous findings" (line 135)
+  3. All discrete text errors are fixed: 'Grou p 3' (line 263), G3->G4 (line 294), 'black and green dotted lines' (line 231), 'Clara cells'->'Club cells' (line 37), "Similar to our previous findings" (line 135)
   4. Figure legends are expanded with sufficient detail for a reader to interpret each panel without consulting methods; PanCK and key markers are defined at first use; MDM representation in Fig 2L and hallmark basis in Fig 5c are explained
   5. Methods section includes spatial spot program scoring (AT1/AT2/EMP) description; introduction US statistics anchor is softened or removed; inter-panel consistency is addressed in methods/results prose
 **Plans**: TBD
@@ -57,10 +63,10 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3
+Phases execute in numeric order: 1 -> 2 -> 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Analytical Robustness | 0/TBD | Not started | - |
+| 1. Analytical Robustness | 0/4 | Planning complete | - |
 | 2. Figure Revisions | 0/TBD | Not started | - |
 | 3. Manuscript Text | 0/TBD | Not started | - |
